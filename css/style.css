@@ -401,45 +401,53 @@ h1, h2, h3 {
 .about-card h3 { margin-bottom: 10px; font-size: 1.15rem; }
 .about-card p { color: var(--text-muted); font-size: 0.95rem; }
 
-/* ============== SKILLS ============== */
-.skills-grid {
+/* ============== SKILLS / TECH STACK ============== */
+.tech-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 16px;
 }
 
-.skill-card h3 {
-  font-size: 1.05rem;
-  margin-bottom: 16px;
+.tech-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius);
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color var(--transition);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.tech-card:hover {
+  border-color: rgba(91, 140, 255, 0.4);
+  box-shadow: var(--shadow);
+}
+
+.tech-icon {
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 1.8rem;
+}
+
+.tech-icon i {
+  font-size: 1.8rem;
   color: var(--text);
 }
 
-.skill-card h3 i { color: var(--accent); }
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tag {
+.tech-card span {
   font-size: 0.8rem;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: rgba(91, 140, 255, 0.08);
-  border: 1px solid rgba(91, 140, 255, 0.2);
-  color: var(--text);
-  transition: var(--transition);
-}
-
-.tag:hover {
-  background: var(--accent-gradient);
-  color: #fff;
-  border-color: transparent;
-  transform: translateY(-2px);
+  color: var(--text-muted);
 }
 
 /* ============== TIMELINE ============== */

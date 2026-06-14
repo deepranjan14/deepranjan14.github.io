@@ -14,6 +14,88 @@
   let mouse = { x: -9999, y: -9999 };
   let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
+  // ---------- PACMAN ----------
+  const PACMAN_RADIUS = 16;
+  const PACMAN_SPEED = 1.6;
+  const EAT_RADIUS = 22;
+  const RESPAWN_DELAY = 4000; // ms before an eaten dot reappears
+
+  const pacman = {
+    x: 0,
+    y: 0,
+    dx: 0,
+    dy: 0,
+    angle: 0,
+    mouth: 0,
+    mouthDir: 1,
+  };
+
+  function resetPacmanDirection() {
+    const a = Math.random() * Math.PI * 2;
+    pacman.dx = Math.cos(a);
+    pacman.dy = Math.sin(a);
+    pacman.angle = a;
+  }
+
+  function initPacman() {
+    pacman.x = Math.random() * width;
+    pacman.y = Math.random() * height;
+    resetPacmanDirection();
+    // Occasionally change direction at random for an erratic, organic path
+    setInterval(() => {
+      if (Math.random() < 0.6) resetPacmanDirection();
+    }, 1500);
+  }
+
+  function updatePacman() {
+    pacman.x += pacman.dx * PACMAN_SPEED;
+    pacman.y += pacman.dy * PACMAN_SPEED;
+
+    if (pacman.x < PACMAN_RADIUS) { pacman.x = PACMAN_RADIUS; pacman.dx *= -1; }
+    if (pacman.x > width - PACMAN_RADIUS) { pacman.x = width - PACMAN_RADIUS; pacman.dx *= -1; }
+    if (pacman.y < PACMAN_RADIUS) { pacman.y = PACMAN_RADIUS; pacman.dy *= -1; }
+    if (pacman.y > height - PACMAN_RADIUS) { pacman.y = height - PACMAN_RADIUS; pacman.dy *= -1; }
+
+    if (pacman.dx !== 0 || pacman.dy !== 0) {
+      pacman.angle = Math.atan2(pacman.dy, pacman.dx);
+    }
+
+    // Chomping mouth animation
+    pacman.mouth += pacman.mouthDir * 0.015;
+    if (pacman.mouth > 0.25) { pacman.mouth = 0.25; pacman.mouthDir = -1; }
+    if (pacman.mouth < 0.02) { pacman.mouth = 0.02; pacman.mouthDir = 1; }
+
+    // Eat nearby dots
+    const now = Date.now();
+    for (const p of points) {
+      if (p.eaten && now >= p.respawnAt) {
+        p.eaten = false;
+      }
+      if (!p.eaten) {
+        const d = Math.hypot(p.x - pacman.x, p.y - pacman.y);
+        if (d < EAT_RADIUS) {
+          p.eaten = true;
+          p.respawnAt = now + RESPAWN_DELAY + Math.random() * 2000;
+        }
+      }
+    }
+  }
+
+  function drawPacman() {
+    ctx.save();
+    ctx.translate(pacman.x, pacman.y);
+    ctx.rotate(pacman.angle);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.arc(0, 0, PACMAN_RADIUS, pacman.mouth * Math.PI, (2 - pacman.mouth) * Math.PI);
+    ctx.closePath();
+    ctx.fillStyle = '#5b8cff';
+    ctx.shadowColor = 'rgba(91, 140, 255, 0.6)';
+    ctx.shadowBlur = 14;
+    ctx.fill();
+    ctx.restore();
+  }
+
   function buildGrid() {
     width = window.innerWidth;
     height = window.innerHeight;
@@ -67,6 +149,8 @@
     ctx.clearRect(0, 0, width, height);
 
     for (const p of points) {
+      if (p.eaten) continue;
+
       const t = p.force || 0;
       const radius = BASE_RADIUS + t * (MAX_RADIUS - BASE_RADIUS);
       const alpha = 0.08 + t * 0.6;
@@ -78,10 +162,13 @@
         : `rgba(255, 255, 255, ${alpha})`;
       ctx.fill();
     }
+
+    drawPacman();
   }
 
   function loop() {
     update();
+    updatePacman();
     draw();
     requestAnimationFrame(loop);
   }
@@ -114,9 +201,14 @@
     mouse.y = -9999;
   });
 
-  window.addEventListener('resize', buildGrid);
+  window.addEventListener('resize', () => {
+    buildGrid();
+    pacman.x = Math.min(pacman.x, width - PACMAN_RADIUS);
+    pacman.y = Math.min(pacman.y, height - PACMAN_RADIUS);
+  });
 
   buildGrid();
+  initPacman();
   loop();
 })();
 

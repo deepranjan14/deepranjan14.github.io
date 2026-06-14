@@ -96,6 +96,24 @@
     mouse.y = -9999;
   });
 
+  // Touch support (Android / iOS) — finger acts like the cursor
+  window.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0];
+    mouse.x = touch.clientX;
+    mouse.y = touch.clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    mouse.x = touch.clientX;
+    mouse.y = touch.clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    mouse.x = -9999;
+    mouse.y = -9999;
+  });
+
   window.addEventListener('resize', buildGrid);
 
   buildGrid();
@@ -159,6 +177,16 @@ if (!isTouch) {
       el.style.transform = 'translate(0, 0)';
     });
   });
+} else {
+  // Touch tap pulse for magnetic buttons
+  document.querySelectorAll('.magnetic').forEach((el) => {
+    el.addEventListener('touchstart', () => {
+      el.style.transform = 'scale(0.94)';
+    }, { passive: true });
+    el.addEventListener('touchend', () => {
+      el.style.transform = 'scale(1)';
+    });
+  });
 }
 
 // ============== TILT EFFECT ON CARDS ==============
@@ -176,6 +204,16 @@ if (!isTouch) {
     });
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
+    });
+  });
+} else {
+  // Touch tap tilt pulse for cards
+  document.querySelectorAll('.tilt').forEach((card) => {
+    card.addEventListener('touchstart', () => {
+      card.style.transform = 'perspective(800px) scale(0.98) translateY(-2px)';
+    }, { passive: true });
+    card.addEventListener('touchend', () => {
+      card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0) scale(1)';
     });
   });
 }

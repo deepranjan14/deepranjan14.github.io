@@ -93,6 +93,14 @@
     ctx.shadowColor = 'rgba(91, 140, 255, 0.6)';
     ctx.shadowBlur = 14;
     ctx.fill();
+
+    // Eye
+    ctx.shadowBlur = 0;
+    ctx.beginPath();
+    ctx.arc(-PACMAN_RADIUS * 0.15, -PACMAN_RADIUS * 0.55, PACMAN_RADIUS * 0.12, 0, Math.PI * 2);
+    ctx.fillStyle = '#0a0e17';
+    ctx.fill();
+
     ctx.restore();
   }
 

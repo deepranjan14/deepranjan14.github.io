@@ -1,0 +1,264 @@
+// ============== SCATTERING / REGROUPING DOT BACKGROUND ==============
+(function initDots() {
+  const canvas = document.getElementById('bgGrid');
+  const ctx = canvas.getContext('2d');
+
+  const SPACING = 42;
+  const RADIUS = 160;          // mouse influence radius
+  const MAX_PUSH = 34;          // max displacement of a dot (bubble pop)
+  const BASE_RADIUS = 1.4;      // resting dot size
+  const MAX_RADIUS = 3.6;       // dot size near cursor
+  const EASE = 0.08;            // how fast dots settle back
+
+  let width, height, cols, rows, points = [];
+  let mouse = { x: -9999, y: -9999 };
+  let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function buildGrid() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    cols = Math.ceil(width / SPACING) + 1;
+    rows = Math.ceil(height / SPACING) + 1;
+    points = [];
+
+    for (let j = 0; j < rows; j++) {
+      for (let i = 0; i < cols; i++) {
+        points.push({
+          ox: i * SPACING,
+          oy: j * SPACING,
+          x: i * SPACING,
+          y: j * SPACING,
+        });
+      }
+    }
+  }
+
+  function update() {
+    for (const p of points) {
+      const dx = p.ox - mouse.x;
+      const dy = p.oy - mouse.y;
+      const dist = Math.hypot(dx, dy);
+
+      let targetX = p.ox;
+      let targetY = p.oy;
+      let force = 0;
+
+      if (dist < RADIUS) {
+        force = 1 - dist / RADIUS;
+        const angle = Math.atan2(dy, dx);
+        const push = force * force * MAX_PUSH;
+        targetX = p.ox + Math.cos(angle) * push;
+        targetY = p.oy + Math.sin(angle) * push;
+      }
+
+      p.x += (targetX - p.x) * EASE;
+      p.y += (targetY - p.y) * EASE;
+      p.force = force;
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (const p of points) {
+      const t = p.force || 0;
+      const radius = BASE_RADIUS + t * (MAX_RADIUS - BASE_RADIUS);
+      const alpha = 0.08 + t * 0.6;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = t > 0.05
+        ? `rgba(91, 140, 255, ${alpha})`
+        : `rgba(255, 255, 255, ${alpha})`;
+      ctx.fill();
+    }
+  }
+
+  function loop() {
+    update();
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -9999;
+    mouse.y = -9999;
+  });
+
+  window.addEventListener('resize', buildGrid);
+
+  buildGrid();
+  loop();
+})();
+
+// ============== CUSTOM CURSOR ==============
+const cursorDot = document.querySelector('.cursor-dot');
+const cursorRing = document.querySelector('.cursor-ring');
+const bgGlow = document.getElementById('bgGlow');
+
+let mouseX = 0, mouseY = 0;
+let ringX = 0, ringY = 0;
+const isTouch = window.matchMedia('(hover: none)').matches;
+
+if (!isTouch) {
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    cursorDot.style.left = `${mouseX}px`;
+    cursorDot.style.top = `${mouseY}px`;
+
+    bgGlow.style.left = `${mouseX}px`;
+    bgGlow.style.top = `${mouseY}px`;
+    bgGlow.style.opacity = '1';
+  });
+
+  // Smooth ring follow (lerp)
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.15;
+    ringY += (mouseY - ringY) * 0.15;
+    cursorRing.style.left = `${ringX}px`;
+    cursorRing.style.top = `${ringY}px`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Hover state for interactive elements
+  const hoverables = document.querySelectorAll('a, button, .tilt, .tag, .nav-link');
+  hoverables.forEach((el) => {
+    el.addEventListener('mouseenter', () => cursorRing.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursorRing.classList.remove('hovered'));
+  });
+
+  document.addEventListener('mouseleave', () => {
+    bgGlow.style.opacity = '0';
+  });
+}
+
+// ============== MAGNETIC BUTTONS ==============
+if (!isTouch) {
+  document.querySelectorAll('.magnetic').forEach((el) => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      el.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = 'translate(0, 0)';
+    });
+  });
+}
+
+// ============== TILT EFFECT ON CARDS ==============
+if (!isTouch) {
+  document.querySelectorAll('.tilt').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -6;
+      const rotateY = ((x - centerX) / centerX) * 6;
+      card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
+    });
+  });
+}
+
+// ============== TYPING ANIMATION ==============
+const roles = [
+  'Unity Game Developer',
+  'C# / .NET Engineer (in progress)',
+  'Live Mobile F2P Games Specialist',
+  'Gameplay Systems Architect'
+];
+
+const typedTextEl = document.getElementById('typedText');
+let roleIndex = 0, charIndex = 0, deleting = false;
+
+function typeLoop() {
+  const current = roles[roleIndex];
+
+  if (!deleting) {
+    typedTextEl.textContent = current.slice(0, charIndex + 1);
+    charIndex++;
+    if (charIndex === current.length) {
+      deleting = true;
+      setTimeout(typeLoop, 1600);
+      return;
+    }
+  } else {
+    typedTextEl.textContent = current.slice(0, charIndex - 1);
+    charIndex--;
+    if (charIndex === 0) {
+      deleting = false;
+      roleIndex = (roleIndex + 1) % roles.length;
+    }
+  }
+
+  setTimeout(typeLoop, deleting ? 35 : 60);
+}
+typeLoop();
+
+// ============== SCROLL REVEAL ==============
+const revealEls = document.querySelectorAll('.reveal');
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+revealEls.forEach((el) => revealObserver.observe(el));
+
+// ============== ACTIVE NAV LINK ON SCROLL ==============
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.nav-link');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      navLinks.forEach((link) => link.classList.remove('active'));
+      const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+
+sections.forEach((section) => navObserver.observe(section));
+
+// ============== MOBILE NAV TOGGLE ==============
+const navToggle = document.getElementById('navToggle');
+const navLinksContainer = document.getElementById('navLinks');
+
+navToggle.addEventListener('click', () => {
+  navLinksContainer.classList.toggle('open');
+  navToggle.classList.toggle('active');
+});
+
+navLinksContainer.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', () => {
+    navLinksContainer.classList.remove('open');
+  });
+});
+
+// ============== FOOTER YEAR ==============
+document.getElementById('year').textContent = new Date().getFullYear();

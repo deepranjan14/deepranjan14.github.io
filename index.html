@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deep Ranjan | Unity Game Developer & C#/.NET Engineer</title>
+  <meta name="description" content="Portfolio of Deep Ranjan — Unity Game Developer with 4 years of experience in live mobile F2P games, transitioning into C#/.NET engineering." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+
+  <!-- Animated background -->
+  <canvas id="bgGrid" class="bg-grid"></canvas>
+  <div class="bg-glow" id="bgGlow"></div>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <a href="#home" class="logo">DR<span>.</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#experience" class="nav-link">Experience</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#education" class="nav-link">Education</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <p class="hero-greeting reveal">Hi, I'm</p>
+      <h1 class="hero-name reveal">Deep Ranjan</h1>
+      <h2 class="hero-role reveal">
+        <span class="typed-text" id="typedText"></span><span class="cursor-blink">|</span>
+      </h2>
+      <p class="hero-desc reveal">
+        4 years of experience building gameplay systems for live mobile F2P slot &amp; casino
+        games in Unity — now expanding into C#/.NET (ASP.NET Core, EF Core) for full-stack work.
+      </p>
+      <div class="hero-buttons reveal">
+        <a href="#projects" class="btn btn-primary magnetic">View Projects</a>
+        <a href="assets/resume.pdf" class="btn btn-outline magnetic" download>Download Resume</a>
+      </div>
+      <div class="hero-socials reveal">
+        <a href="mailto:ranjan14deep@gmail.com" class="social-icon magnetic" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://linkedin.com/in/deep-ranjan" target="_blank" class="social-icon magnetic" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://github.com/" target="_blank" class="social-icon magnetic" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+      </div>
+    </div>
+    <div class="scroll-indicator reveal">
+      <span></span>
+      <p>Scroll</p>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="section-heading reveal">
+      <span class="section-tag">01 — About</span>
+      <h2>Professional Summary</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-card reveal tilt">
+        <i class="fa-solid fa-gamepad about-icon"></i>
+        <h3>Unity Game Developer</h3>
+        <p>4 years of experience as a Unity developer, building gameplay features for live mobile
+          F2P slot and casino games — paylines, wilds, free spins, jackpots and more.</p>
+      </div>
+      <div class="about-card reveal tilt">
+        <i class="fa-solid fa-code about-icon"></i>
+        <h3>C# &amp; Clean Architecture</h3>
+        <p>Comfortable with C#, OOP and design patterns — applying SOLID principles and
+          dependency injection (Zenject) to build scalable, maintainable game systems.</p>
+      </div>
+      <div class="about-card reveal tilt">
+        <i class="fa-solid fa-server about-icon"></i>
+        <h3>Moving Toward .NET</h3>
+        <p>Currently picking up ASP.NET Core and Entity Framework Core to move toward
+          backend and full-stack development, building on a strong C# foundation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="section">
+    <div class="section-heading reveal">
+      <span class="section-tag">02 — Skills</span>
+      <h2>Technical Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal tilt">
+        <h3><i class="fa-solid fa-terminal"></i> Languages</h3>
+        <div class="tags">
+          <span class="tag">C#</span><span class="tag">C++</span><span class="tag">C</span><span class="tag">Data Structures</span><span class="tag">SQL</span>
+        </div>
+      </div>
+      <div class="skill-card reveal tilt">
+        <h3><i class="fa-solid fa-cubes"></i> Game Development</h3>
+        <div class="tags">
+          <span class="tag">Unity</span><span class="tag">OOP</span><span class="tag">SOLID</span>
+          <span class="tag">Design Patterns</span><span class="tag">Gameplay Architecture</span>
+          <span class="tag">Multiplayer</span><span class="tag">Zenject</span>
+          <span class="tag">Addressables</span><span class="tag">Object Pooling</span><span class="tag">UI/UX</span>
+          <span class="tag">Claude</span><span class="tag">Cursor</span>
+        </div>
+      </div>
+      <div class="skill-card reveal tilt">
+        <h3><i class="fa-solid fa-server"></i> Backend &amp; SDKs</h3>
+        <div class="tags">
+          <span class="tag">ASP.NET Core</span><span class="tag">REST APIs</span><span class="tag">Firebase</span>
+          <span class="tag">Flurry</span><span class="tag">Facebook SDK</span><span class="tag">AWS S3</span><span class="tag">Mirror</span>
+        </div>
+      </div>
+      <div class="skill-card reveal tilt">
+        <h3><i class="fa-solid fa-mobile-screen"></i> Platforms &amp; LiveOps</h3>
+        <div class="tags">
+          <span class="tag">Android</span><span class="tag">iOS</span><span class="tag">WebGL</span>
+          <span class="tag">Windows</span><span class="tag">macOS</span><span class="tag">LiveOps</span>
+          <span class="tag">IAP</span><span class="tag">IAA</span><span class="tag">IronSource</span>
+          <span class="tag">A/B Testing</span><span class="tag">Deep Linking</span>
+        </div>
+      </div>
+      <div class="skill-card reveal tilt">
+        <h3><i class="fa-solid fa-wrench"></i> Tools</h3>
+        <div class="tags">
+          <span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">GitLab</span><span class="tag">SourceTree</span>
+          <span class="tag">Jira</span><span class="tag">Visual Studio</span><span class="tag">Android Studio</span>
+          <span class="tag">Xcode</span><span class="tag">Profiling &amp; Optimization</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="section">
+    <div class="section-heading reveal">
+      <span class="section-tag">03 — Experience</span>
+      <h2>Professional Experience</h2>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content tilt">
+          <div class="timeline-header">
+            <h3>Game Developer — Octro Inc.</h3>
+            <span class="timeline-date">Sep 2022 — Present</span>
+          </div>
+          <p class="timeline-location"><i class="fa-solid fa-location-dot"></i> Chandigarh / Noida, India</p>
+
+          <div class="project-block">
+            <div class="project-block-header">
+              <h4>Word Climber</h4>
+              <span class="project-date">2025 — Present</span>
+            </div>
+            <ul>
+              <li>Implemented In-App Purchase (IAP) flows and ad mediation (rewarded &amp; interstitial ads) for monetization.</li>
+              <li>Integrated Facebook SDK for login and social features, and built the "Invite Friends" UI and referral flow to drive player acquisition.</li>
+              <li>Implemented server-side integration for player data sync, rewards, and progression.</li>
+            </ul>
+          </div>
+
+          <div class="project-block">
+            <div class="project-block-header">
+              <h4>Slot Games</h4>
+              <span class="project-date">Jan 2024 — 2025</span>
+            </div>
+            <ul>
+              <li>Developed client-side gameplay systems for live mobile slot games — paylines, wild symbols, scatter symbols, jackpots, free spins, hold-and-spin, sticky wilds.</li>
+              <li>Architected scalable, reusable Unity systems using C#, OOP, and Zenject dependency injection, implementing RTP and probability-driven gameplay for balanced, fair player experiences.</li>
+              <li>Built LiveOps features (inbox rewards, promotions, deep linking, server-driven widgets, event-based content) and integrated analytics &amp; A/B testing to track engagement, retention, and monetization funnels.</li>
+              <li>Optimized memory, asset loading, and runtime performance across Android, iOS &amp; WebGL using Addressables, while partnering cross-functionally to deliver production-ready features and troubleshoot live issues.</li>
+            </ul>
+          </div>
+
+          <div class="project-block">
+            <div class="project-block-header">
+              <h4>Blackjack</h4>
+              <span class="project-date">Dec 2022 — Jul 2023</span>
+            </div>
+            <ul>
+              <li>Developed gameplay systems and multiplayer-ready architecture with robust game state management and synchronization.</li>
+              <li>Integrated server communication and XML-based content management for scalable configuration.</li>
+            </ul>
+          </div>
+
+          <div class="project-block">
+            <div class="project-block-header">
+              <h4>Poker3D</h4>
+              <span class="project-date">Sep 2022 — Nov 2022</span>
+            </div>
+            <ul>
+              <li>Implemented real-time chat and emoji systems for player interaction in a multiplayer poker environment.</li>
+              <li>Integrated Facebook SDK, Firebase Crashlytics, Flurry Analytics, AWS S3, and IronSource with analytics tracking.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="section">
+    <div class="section-heading reveal">
+      <span class="section-tag">04 — Projects</span>
+      <h2>Featured Projects</h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal tilt">
+        <div class="project-icon"><i class="fa-solid fa-spell-check"></i></div>
+        <h3>Word Climber</h3>
+        <p>Word puzzle game — gameplay, progression, hint systems, reward mechanics, IAP,
+          rewarded ads, and analytics, optimized for Android &amp; iOS.</p>
+        <div class="tags"><span class="tag">Unity</span><span class="tag">IAP</span><span class="tag">Ads</span><span class="tag">Analytics</span></div>
+      </div>
+
+      <div class="project-card reveal tilt">
+        <div class="project-icon"><i class="fa-solid fa-coins"></i></div>
+        <h3>Slot Game Systems</h3>
+        <p>Core slot mechanics — paylines, wilds, scatters, jackpots, free spins, hold-and-spin
+          and RTP-driven probability systems for live mobile casino titles.</p>
+        <div class="tags"><span class="tag">Unity</span><span class="tag">Zenject</span><span class="tag">LiveOps</span></div>
+      </div>
+
+      <div class="project-card reveal tilt">
+        <div class="project-icon"><i class="fa-solid fa-crosshairs"></i></div>
+        <h3>Third Person Shooter</h3>
+        <p>Third-person movement (CharacterController), Cinemachine camera, weapon systems,
+          enemy AI with NavMesh, and particle-based gameplay feedback.</p>
+        <div class="tags"><span class="tag">Unity</span><span class="tag">NavMesh</span><span class="tag">Cinemachine</span></div>
+      </div>
+
+      <div class="project-card reveal tilt">
+        <div class="project-icon"><i class="fa-solid fa-circle-question"></i></div>
+        <h3>Quiz Game</h3>
+        <p>Animations, UI interactions, and performance optimization using object pooling
+          for a smooth, responsive quiz experience.</p>
+        <div class="tags"><span class="tag">Unity</span><span class="tag">Object Pooling</span><span class="tag">UI/UX</span></div>
+      </div>
+
+      <div class="project-card reveal tilt">
+        <div class="project-icon"><i class="fa-solid fa-clone"></i></div>
+        <h3>Blackjack Simulator</h3>
+        <p>Local Blackjack simulator with multiplayer-ready architecture, game state sync,
+          and XML-based server-driven configuration.</p>
+        <div class="tags"><span class="tag">Unity</span><span class="tag">Multiplayer</span><span class="tag">XML</span></div>
+      </div>
+
+      <div class="project-card reveal tilt">
+        <div class="project-icon"><i class="fa-solid fa-dice"></i></div>
+        <h3>Poker3D</h3>
+        <p>Real-time chat &amp; emoji systems for a multiplayer poker environment, with Firebase,
+          Flurry, AWS S3, and IronSource integrations.</p>
+        <div class="tags"><span class="tag">Unity</span><span class="tag">Firebase</span><span class="tag">VR</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="section">
+    <div class="section-heading reveal">
+      <span class="section-tag">05 — Education</span>
+      <h2>Education</h2>
+    </div>
+    <div class="education-card reveal tilt">
+      <i class="fa-solid fa-graduation-cap edu-icon"></i>
+      <div>
+        <h3>National Institute of Technology (NIT), Hamirpur</h3>
+        <p>Dual Degree (B.Tech + M.Tech), Electronics and Communication Engineering</p>
+        <span class="timeline-date">2022 · Hamirpur, India</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <div class="section-heading reveal">
+      <span class="section-tag">06 — Contact</span>
+      <h2>Get In Touch</h2>
+    </div>
+    <div class="contact-wrap reveal tilt">
+      <p>Open to opportunities as a Unity Game Developer or C#/.NET Software Engineer.
+        Feel free to reach out — I usually respond within a day.</p>
+      <div class="contact-links">
+        <a href="mailto:ranjan14deep@gmail.com" class="contact-link magnetic">
+          <i class="fa-solid fa-envelope"></i> ranjan14deep@gmail.com
+        </a>
+        <a href="tel:+917580077564" class="contact-link magnetic">
+          <i class="fa-solid fa-phone"></i> +91-7580077564
+        </a>
+        <a href="https://linkedin.com/in/deep-ranjan" target="_blank" class="contact-link magnetic">
+          <i class="fa-brands fa-linkedin-in"></i> linkedin.com/in/deep-ranjan
+        </a>
+        <a href="https://github.com/" target="_blank" class="contact-link magnetic">
+          <i class="fa-brands fa-github"></i> GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> Deep Ranjan. Built with HTML, CSS &amp; JavaScript.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
